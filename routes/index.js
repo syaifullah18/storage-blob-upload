@@ -7,7 +7,7 @@ const
     , router = express.Router()
     , azureStorage = require('azure-storage')
     , blobService = azureStorage.createBlobService()
-    , containerName = 'thumbnails'
+    , containerName = 'images'
     , config = require('../config')
 ;
 
