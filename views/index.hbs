@@ -20,7 +20,6 @@
                   <div class="card-body" id="desc{{@key}}">
                     <p class="card-text">{{name}}</p>
                     <div id="response{{@key}}">
-                        <h6 class="card-title">Response</h6>
                     </div>
                   </div>
                     <div id="tag{{@key}}" class="px-3 py-3">
@@ -91,7 +90,7 @@
             var tag = data.description.tags
             captionAppare(captions, index)
             tagAppare(tag, index)
-            document.getElementById("response" + index).innerHTML += "<p class='card-text'>" + JSON.stringify(data, null, 2) + "</p>";
+            document.getElementById("response" + index).innerHTML = "<h6 class=\"card-title\">Response</h6><p class='card-text'>" + JSON.stringify(data, null, 2) + "</p>";
 
             // alert("success");
         })
