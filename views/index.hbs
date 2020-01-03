@@ -1,22 +1,120 @@
+<div class="container">
 <h1>Image Resizer</h1>
-
+<br/>
 <h2>Upload photos</h2>
 <form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
+  <br/>
   <h2>Select an image to upload:</h2>
   <div class="upload-container"><input id="file-picker" type="file" name="image"></div>
   <div><input type="submit" value="Upload Image"></div>
 </form>
-
+<br/>
 <p id="message">{{message}}</p>
 
 <h2>Generated Thumbnails</h2>
-{{#each this.thumbnails}}
-  <img src="https://{{../accountName}}.blob.core.windows.net/{{../containerName}}/{{name}}" style="max-width: 500px;">
-{{/each}}
-
+    <div class="row">
+        {{#each this.thumbnails}}
+            <div class="col-3 mx-3 my-3">
+                <div class="card" style="width: 18rem;">
+                  <img src="https://{{../accountName}}.blob.core.windows.net/{{../containerName}}/{{name}}" class="card-img-top" alt="Can't be rendered">
+                  <div class="card-body" id="desc{{@key}}">
+                    <p class="card-text">{{name}}</p>
+                    <div id="response{{@key}}"></div>
+                  </div>
+                    <ul id="tag{{@key}}" class="list-group list-group-flush">
+                    </ul>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" onclick="processImage('https://{{../accountName}}.blob.core.windows.net/{{../containerName}}/{{name}}', {{@key}})">Analyze</button>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
 <hr>
 <p>This app has no official privacy policy. Your data will be uploaded to a service in order to produce a thumbnail. Your images will be public once you upload them and there is no automated way to remove them.</p>
 
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script type="text/javascript">
+    var jqueryNoConflict = jQuery;
+
+    function processImage(sourceImageUrl, index) {
+        // **********************************************
+        // *** Update or verify the following values. ***
+        // **********************************************
+
+        // Replace <Subscription Key> with your valid subscription key.
+        var subscriptionKey = "ca041fbd6cfa4eeda530e19c6171cbda";
+
+        // You must use the same Azure region in your REST API method as you used to
+        // get your subscription keys. For example, if you got your subscription keys
+        // from the West US region, replace "westcentralus" in the URL
+        // below with "westus".
+        //
+        // Free trial subscription keys are generated in the "westus" region.
+        // If you use a free trial subscription key, you shouldn't need to change
+        // this region.
+        var uriBase =
+            "https://subcompvision.cognitiveservices.azure.com/vision/v2.0/analyze";
+
+        // Request parameters.
+        var params = {
+            "visualFeatures": "Categories,Description,Color",
+            "details": "",
+            "language": "en",
+        };
+
+        // Display the image.
+
+        // Make the REST API call.
+        jqueryNoConflict.ajax({
+            url: uriBase + "?" + $.param(params),
+
+            // Request headers.
+            beforeSend: function(xhrObj){
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader(
+                    "Ocp-Apim-Subscription-Key", subscriptionKey);
+            },
+
+            type: "POST",
+
+            // Request body.
+            data: '{"url": ' + '"' + sourceImageUrl + '"}',
+        })
+
+        .done(function(data) {
+            // Show formatted JSON on webpage.
+            var captions = data.description.captions
+            var tag = data.description.tags
+            captionAppare(captions, index)
+            tagAppare(tag, index)
+
+            // alert("success");
+        })
+
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            // Display error message.
+            var errorString = (errorThrown === "") ? "Error. " :
+                errorThrown + " (" + jqXHR.status + "): ";
+            errorString += (jqXHR.responseText === "") ? "" :
+                jQuery.parseJSON(jqXHR.responseText).message;
+            alert(errorString);
+        });
+    };
+
+    function captionAppare(captions, index) {
+        for (i = 0; i < captions.length; i++) {
+            document.getElementById("desc" + index).innerHTML = "<p class='card-text'>" + captions[i].text + "</p>";
+        }
+    }
+
+    function tagAppare(tag, index) {
+        for (i = 0; i < tag.length; i++) {
+            document.getElementById("tag" + index).innerHTML += "<li class='list-group-item'>" + tag[i] + "</li>";
+        }
+    }
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
 

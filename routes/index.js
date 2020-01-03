@@ -9,7 +9,25 @@ const
     , blobService = azureStorage.createBlobService()
     , containerName = 'images'
     , config = require('../config')
+    , async = require('async')
+    , fs = require('fs')
+    , createReadStream = require('fs').createReadStream
+    , sleep = require('util').promisify(setTimeout)
+    , ComputerVisionClient = require('azure-cognitiveservices-computervision').ComputerVisionClient
+    , ApiKeyCredentials = require('ms-rest-azure').ApiKeyCredentials
 ;
+
+function computerVision() {
+  async.series([
+    async function () {
+      return new Promise((resolve) => {
+        resolve();
+      })
+    }
+  ], (err) => {
+    throw (err);
+  });
+}
 
 router.get('/', (req, res, next) => {
 
@@ -45,6 +63,8 @@ router.get('/', (req, res, next) => {
 
     res.render(viewData.viewName, viewData);
   });
+
+  computerVision();
 
 });
 
