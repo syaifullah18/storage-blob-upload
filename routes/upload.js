@@ -24,14 +24,14 @@ const handleError = (err, res) => {
 };
 
 const getBlobName = originalName => {
-    const identifier = Math.random().toString().replace(/0\./, ''); // remove "0." from start of string
-    return `${identifier}-${originalName}`;
+    const date = Date.now()
+    return `${date}-${originalName}`;
 };
 
 router.post('/', uploadStrategy, (req, res) => {
 
     const
-          blobName = bcrypt.hashSync(getBlobName(req.file.originalname), 10)
+          blobName = bcrypt.hashSync(getBlobName(req.file.originalname), 10).replace(/\//g, '')
         , stream = getStream(req.file.buffer)
         , streamLength = req.file.buffer.length
     ;
