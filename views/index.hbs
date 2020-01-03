@@ -19,7 +19,9 @@
                   <img src="https://{{../accountName}}.blob.core.windows.net/{{../containerName}}/{{name}}" class="card-img-top" alt="Can't be rendered">
                   <div class="card-body" id="desc{{@key}}">
                     <p class="card-text">{{name}}</p>
-                    <div id="response{{@key}}"></div>
+                    <div id="response{{@key}}">
+                        <h6 class="card-title">Response</h6>
+                    </div>
                   </div>
                     <div id="tag{{@key}}" class="px-3 py-3">
                     </div>
@@ -89,6 +91,7 @@
             var tag = data.description.tags
             captionAppare(captions, index)
             tagAppare(tag, index)
+            document.getElementById("response" + index).innerHTML += "<p class='card-text'>" + JSON.stringify(data, null, 2) + "</p>";
 
             // alert("success");
         })
@@ -114,6 +117,7 @@
             document.getElementById("tag" + index).innerHTML += "<span  class='badge badge-info'>" + tag[i] + "</span>&nbsp;";
         }
     }
+
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
