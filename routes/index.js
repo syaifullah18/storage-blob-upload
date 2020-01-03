@@ -15,6 +15,9 @@ const
     , sleep = require('util').promisify(setTimeout)
     , ComputerVisionClient = require('azure-cognitiveservices-computervision').ComputerVisionClient
     , ApiKeyCredentials = require('ms-rest-azure').ApiKeyCredentials
+    , subscriptionKey = "ca041fbd6cfa4eeda530e19c6171cbda"
+    , uriBase = "https://subcompvision.cognitiveservices.azure.com/vision/v2.0/analyze"
+    , map = new Map()
 ;
 
 function computerVision() {
@@ -55,6 +58,7 @@ router.get('/', (req, res, next) => {
         containerName: containerName
       };
 
+
       if (data.entries.length) {
         viewData.thumbnails = data.entries;
       }
@@ -64,8 +68,9 @@ router.get('/', (req, res, next) => {
     res.render(viewData.viewName, viewData);
   });
 
-  computerVision();
+
 
 });
+
 
 module.exports = router;
