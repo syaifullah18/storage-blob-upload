@@ -90,7 +90,7 @@
             var tag = data.description.tags
             captionAppare(captions, index)
             tagAppare(tag, index)
-            document.getElementById("response" + index).innerHTML = "<h6 class=\"card-title\">Response</h6><p class='card-text'>" + JSON.stringify(data, null, 2) + "</p>";
+            jqueryNoConflict("#response" + index).html("<h6 class=\"card-title\">Response</h6><p class='card-text'>" + JSON.stringify(data, null, 2) + "</p>");
 
             // alert("success");
         })
