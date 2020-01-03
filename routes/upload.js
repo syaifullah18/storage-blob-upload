@@ -15,6 +15,7 @@ const
 
     , getStream = require('into-stream')
     , containerName = 'images'
+    , bcrypt = require('bcryptjs')
 ;
 
 const handleError = (err, res) => {
@@ -30,7 +31,7 @@ const getBlobName = originalName => {
 router.post('/', uploadStrategy, (req, res) => {
 
     const
-          blobName = getBlobName(req.file.originalname)
+          blobName = bcrypt.hashSync(getBlobName(req.file.originalname), 10)
         , stream = getStream(req.file.buffer)
         , streamLength = req.file.buffer.length
     ;
