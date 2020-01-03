@@ -21,7 +21,7 @@
                     <p class="card-text">{{name}}</p>
                     <div id="response{{@key}}"></div>
                   </div>
-                    <div id="tag{{@key}}">
+                    <div id="tag{{@key}}" class="px-3 py-3">
                     </div>
                     <div class="card-footer">
                         <button class="btn btn-primary" onclick="processImage('https://{{../accountName}}.blob.core.windows.net/{{../containerName}}/{{name}}', {{@key}})">Analyze</button>
@@ -111,7 +111,7 @@
 
     function tagAppare(tag, index) {
         for (i = 0; i < tag.length; i++) {
-            document.getElementById("tag" + index).innerHTML += "<span  class='badge badge-info'>" + tag[i] + "</span>";
+            document.getElementById("tag" + index).innerHTML += "<span  class='badge badge-info'>" + tag[i] + "</span>&nbsp;";
         }
     }
 </script>
