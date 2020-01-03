@@ -21,8 +21,8 @@
                     <p class="card-text">{{name}}</p>
                     <div id="response{{@key}}"></div>
                   </div>
-                    <ul id="tag{{@key}}" class="list-group list-group-flush">
-                    </ul>
+                    <div id="tag{{@key}}">
+                    </div>
                     <div class="card-footer">
                         <button class="btn btn-primary" onclick="processImage('https://{{../accountName}}.blob.core.windows.net/{{../containerName}}/{{name}}', {{@key}})">Analyze</button>
                     </div>
@@ -111,7 +111,7 @@
 
     function tagAppare(tag, index) {
         for (i = 0; i < tag.length; i++) {
-            document.getElementById("tag" + index).innerHTML += "<li class='list-group-item'>" + tag[i] + "</li>";
+            document.getElementById("tag" + index).innerHTML += "<span  class='badge badge-info'>" + tag[i] + "</span>";
         }
     }
 </script>
